@@ -1,5 +1,3 @@
----
-
 # Python para Engenharia de Dados
 
 Este repositório contém atividades, projetos e exercícios desenvolvidos na disciplina de **Python Aplicado à Engenharia de Dados**, parte da pós-graduação em Engenharia de Dados. O conteúdo aqui apresentado tem como objetivo consolidar o domínio da linguagem Python e de suas principais bibliotecas voltadas para a manipulação, transformação, análise e visualização de dados.
