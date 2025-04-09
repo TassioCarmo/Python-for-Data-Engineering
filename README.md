@@ -1,5 +1,3 @@
-Claro! Abaixo está uma sugestão de introdução para a matéria de **Python** voltada para uma **pós-graduação em Engenharia de Dados**, escrita de forma profissional e adequada para um `README.md` no GitHub. Essa introdução pode ser usada como parte de um portfólio para demonstrar conhecimento prático da linguagem e aplicabilidade na área de dados.
-
 ---
 
 # Python para Engenharia de Dados
