@@ -1,645 +1,361 @@
-# Banco de Dados SQL: Glossário e Conceitos Fundamentais
+# Manipulação de Arquivos / File Manipulation
 
-Este documento serve como um guia abrangente para a disciplina de Banco de Dados SQL da pós-graduação, organizando conceitos fundamentais de SQL e administração de bancos de dados relacionais.
+## Sumário / Summary
+- [Introdução / Introduction](#introdução--introduction)
+- [Abertura de Arquivos / Opening Files](#abertura-de-arquivos--opening-files)
+- [Leitura de Arquivos / Reading Files](#leitura-de-arquivos--reading-files)
+  - [read()](#read)
+  - [readline()](#readline)
+  - [readlines()](#readlines)
+- [Escrita em Arquivos / Writing Files](#escrita-em-arquivos--writing-files)
+  - [write()](#write)
+  - [writelines()](#writelines)
+  - [append](#append)
+- [Fechamento de Arquivos / Closing Files](#fechamento-de-arquivos--closing-files)
+- [Navegação em Arquivos / File Navigation](#navegação-em-arquivos--file-navigation)
+  - [seek()](#seek)
+- [Tratamento de Exceções / Exception Handling](#tratamento-de-exceções--exception-handling)
+- [Exemplos Práticos / Practical Examples](#exemplos-práticos--practical-examples)
 
-## Sumário
+## Introdução / Introduction
 
-1. [Comandos DML e Funções](#comandos-dml-e-funções)
-2. [Junções](#junções)
-3. [Subconsultas](#subconsultas)
-4. [Constraints e Views](#constraints-e-views)
-5. [Sequences, Índices e Sinônimos](#sequences-índices-e-sinônimos)
-6. [Privilégios e Expressões Regulares](#privilégios-e-expressões-regulares)
+A manipulação de arquivos é uma habilidade fundamental na programação, permitindo o armazenamento persistente de dados, a comunicação entre programas e o processamento de informações externas. Em Python, esta manipulação é feita de forma intuitiva e poderosa através de diversas funções e métodos que permitem ler, escrever e modificar arquivos. Este documento explora em detalhes os conceitos e técnicas essenciais para manipulação eficiente de arquivos.
 
-## Comandos DML e Funções
+## Abertura de Arquivos / Opening Files
 
-### Classificação de Linhas (Row Sorting)
+A função `open()` é a porta de entrada para manipulação de arquivos em Python. Esta função cria um objeto de arquivo que serve como interface para operações subsequentes.
 
-- A classificação de resultados é um recurso essencial do SQL
-- Embora o design do BD organize funções de negócio por entidade e atributos, o SQL utiliza a cláusula `ORDER BY` para ordenação de dados
-- Por padrão, a ordenação é crescente (do menor para o maior)
-- Valores NULL são exibidos por último, mas podem ser configurados com `NULL FIRST` ou `NULL LAST`
-
-Exemplo:
-```sql
--- Ordenação básica crescente (padrão)
-SELECT employee_id, first_name, salary
-FROM employees
-ORDER BY salary;
-
--- Ordenação decrescente
-SELECT employee_id, first_name, salary
-FROM employees
-ORDER BY salary DESC;
-
--- Configurando posição dos valores NULL
-SELECT employee_id, first_name, commission_pct
-FROM employees
-ORDER BY commission_pct NULLS FIRST;
+**Sintaxe:**
+```python
+file_object = open(file_name, mode, encoding=None)
 ```
 
-### Tipos de Funções
+**Parâmetros:**
+- `file_name`: O caminho para o arquivo (absoluto ou relativo)
+- `mode`: O modo de abertura (leitura, escrita, etc.)
+- `encoding`: Codificação do arquivo (UTF-8, Latin-1, etc.)
 
-#### Função de Linha Única (Single-Row Functions)
+**Modos de abertura comuns:**
+- `'r'`: Leitura (padrão)
+- `'w'`: Escrita (cria um novo arquivo ou sobrescreve o existente)
+- `'a'`: Append (adiciona ao final do arquivo)
+- `'x'`: Criação exclusiva (falha se o arquivo já existir)
+- `'b'`: Modo binário
+- `'t'`: Modo texto (padrão)
+- `'+'`: Atualização (leitura e escrita)
 
-- Operam em linhas individuais e retornam um resultado por linha
-- Incluem funções de caractere, número, data e conversão de tipos
-- Úteis para padronização de registros, principalmente quanto a maiúsculas e minúsculas
+**Exemplo:**
+```python
+# Abrindo um arquivo para leitura
+arquivo = open('dados.txt', 'r', encoding='utf-8')
 
-Exemplo:
-```sql
--- Função de caractere: converte para maiúsculo
-SELECT UPPER(first_name) AS nome_maiusculo
-FROM employees;
+# Abrindo um arquivo para escrita
+arquivo_saida = open('resultados.txt', 'w', encoding='utf-8')
 
--- Função numérica: arredonda para uma casa decimal
-SELECT employee_id, salary, ROUND(salary/12, 1) AS salario_mensal
-FROM employees;
+# Abrindo um arquivo binário
+arquivo_binario = open('imagem.jpg', 'rb')
 ```
 
-#### Função Multilinha (Multi-Row Functions)
+## Leitura de Arquivos / Reading Files
 
-- Manipulam grupos de linhas para fornecer um resultado por grupo
-- Também conhecidas como funções de grupo
-- Aceitam múltiplas linhas como entrada e retornam um único valor como saída
+### read()
 
-Exemplo:
-```sql
--- Média salarial
-SELECT AVG(salary) AS media_salarial
-FROM employees;
+O método `read()` lê o conteúdo inteiro de um arquivo ou um número específico de bytes.
 
--- Contagem de funcionários por departamento
-SELECT department_id, COUNT(*) AS total_funcionarios
-FROM employees
-GROUP BY department_id;
+**Sintaxe:**
+```python
+conteudo = file_object.read(size=-1)
 ```
 
-### Tabela DUAL
+**Parâmetros:**
+- `size`: O número de bytes a serem lidos. Se omitido ou negativo, lê o arquivo inteiro.
 
-- Recurso que permite testar funções sem necessidade de uma tabela física
-- Usada para criar instruções SELECT e executar funções não relacionadas a uma tabela específica
-- Útil para cálculos e avaliação de expressões
+**Exemplo:**
+```python
+# Lendo arquivo inteiro
+with open('exemplo.txt', 'r') as arquivo:
+    conteudo = arquivo.read()
+    print(conteudo)
 
-Exemplo:
-```sql
--- Calculando expressão matemática
-SELECT 24*60 AS minutos_dia FROM DUAL;
-
--- Testando função de data
-SELECT SYSDATE, SYSDATE + 7 AS proxima_semana FROM DUAL;
-
--- Manipulação de string
-SELECT UPPER('teste de função') FROM DUAL;
+# Lendo 50 bytes
+with open('exemplo.txt', 'r') as arquivo:
+    inicio = arquivo.read(50)
+    print(inicio)
 ```
 
-### Manipulação de Strings
+### readline()
 
-Exemplos:
-```sql
--- Convertendo strings para maiúsculo/minúsculo
-SELECT 
-    UPPER('texto exemplo') AS maiusculo,
-    LOWER('TEXTO EXEMPLO') AS minusculo,
-    INITCAP('texto exemplo') AS primeiras_maiusculas
-FROM DUAL;
+O método `readline()` lê uma única linha do arquivo, incluindo o caractere de quebra de linha (`\n`).
 
--- Concatenando strings
-SELECT 
-    first_name || ' ' || last_name AS nome_completo,
-    CONCAT(first_name, last_name) AS nome_concatenado
-FROM employees;
-
--- Extraindo substrings
-SELECT 
-    SUBSTR('Banco de Dados', 1, 5) AS primeiros_cinco,
-    SUBSTR('Banco de Dados', 7) AS a_partir_setimo
-FROM DUAL;
+**Sintaxe:**
+```python
+linha = file_object.readline(size=-1)
 ```
 
-### Funções Numéricas
+**Parâmetros:**
+- `size`: Limite máximo de bytes a serem lidos (raramente usado)
 
-#### ROUND
-Arredonda um número para o número especificado de casas decimais.
-
-```sql
-SELECT 
-    ROUND(125.678) AS sem_decimais,       -- 126
-    ROUND(125.678, 1) AS uma_decimal,     -- 125.7
-    ROUND(125.678, -1) AS dezena          -- 130
-FROM DUAL;
+**Exemplo:**
+```python
+with open('exemplo.txt', 'r') as arquivo:
+    primeira_linha = arquivo.readline()
+    segunda_linha = arquivo.readline()
+    print(primeira_linha, end='')  # end='' evita dupla quebra de linha
+    print(segunda_linha, end='')
 ```
 
-#### TRUNCATE
-Termina o número em um ponto determinado sem arredondamento.
+### readlines()
 
-```sql
-SELECT 
-    TRUNC(125.678) AS sem_decimais,      -- 125
-    TRUNC(125.678, 1) AS uma_decimal,    -- 125.6
-    TRUNC(125.678, -1) AS dezena         -- 120
-FROM DUAL;
+O método `readlines()` lê todas as linhas do arquivo e retorna uma lista, com cada linha como um elemento.
+
+**Sintaxe:**
+```python
+linhas = file_object.readlines()
 ```
 
-#### MOD
-Retorna o resto da divisão.
-
-```sql
-SELECT 
-    MOD(15, 4) AS resto,    -- 3
-    MOD(15, 5) AS resto2    -- 0
-FROM DUAL;
+**Exemplo:**
+```python
+with open('exemplo.txt', 'r') as arquivo:
+    todas_linhas = arquivo.readlines()
+    
+    # Processando cada linha
+    for i, linha in enumerate(todas_linhas):
+        print(f"Linha {i+1}: {linha.strip()}")
 ```
 
-## Junções
+## Escrita em Arquivos / Writing Files
 
-### Natural Join
+### write()
 
-- Une tabelas sem necessidade de especificar as colunas correspondentes
-- Nomes e tipos de dados das colunas devem ser idênticos em ambas as tabelas
+O método `write()` escreve uma string em um arquivo.
 
-```sql
--- Natural Join usando sintaxe ANSI
-SELECT e.employee_id, e.last_name, d.department_name
-FROM employees e NATURAL JOIN departments d;
+**Sintaxe:**
+```python
+bytes_escritos = file_object.write(string)
 ```
 
-### Cross Join
+**Retorno:**
+- Número de caracteres/bytes escritos
 
-- Apresenta todas as linhas possíveis entre as tabelas, sem aplicação de filtros
-- Operação potencialmente pesada que pode comprometer o desempenho do banco
-
-```sql
--- Cross Join (produto cartesiano)
-SELECT e.employee_id, e.last_name, d.department_id, d.department_name
-FROM employees e CROSS JOIN departments d;
+**Exemplo:**
+```python
+with open('saida.txt', 'w') as arquivo:
+    arquivo.write("Primeira linha do arquivo.\n")
+    arquivo.write("Segunda linha do arquivo.\n")
+    bytes = arquivo.write("Terceira linha.")
+    print(f"Foram escritos {bytes} bytes na última operação.")
 ```
 
-### Junções Externas (Outer Joins)
+### writelines()
 
-#### Full Outer Join
-Retorna todas as linhas de ambas as tabelas, independentemente de haver correspondência.
+O método `writelines()` escreve uma sequência de strings em um arquivo.
 
-```sql
--- Full Outer Join
-SELECT e.employee_id, e.last_name, d.department_id, d.department_name
-FROM employees e FULL OUTER JOIN departments d
-ON e.department_id = d.department_id;
+**Sintaxe:**
+```python
+file_object.writelines(sequence)
 ```
 
-### Equijunção e Não Equijunção
+**Parâmetros:**
+- `sequence`: Uma sequência de strings (lista, tupla, etc.)
 
-- **Equijunção**: Combina linhas que têm os mesmos valores nas colunas especificadas, usando o operador de igualdade (=)
-- **Não Equijunção**: Une tabelas sem correspondências exatas entre colunas, usando operadores como <, >, <=, >=, BETWEEN
+**Observação:** Diferente do que o nome sugere, `writelines()` não adiciona quebras de linha automaticamente.
 
-```sql
--- Equijunção
-SELECT e.employee_id, e.last_name, d.department_name
-FROM employees e JOIN departments d
-ON e.department_id = d.department_id;
+**Exemplo:**
+```python
+linhas = [
+    "Primeira linha\n",
+    "Segunda linha\n",
+    "Terceira linha\n"
+]
 
--- Não Equijunção
-SELECT e.last_name, e.salary, g.grade_level
-FROM employees e JOIN salary_grades g
-ON e.salary BETWEEN g.lowest_sal AND g.highest_sal;
+with open('multiplas_linhas.txt', 'w') as arquivo:
+    arquivo.writelines(linhas)
 ```
 
-### Tratamento de Valores NULL
+### append
 
-#### NULLIF
-Compara duas expressões e retorna NULL se iguais, ou a primeira expressão se diferentes.
+O modo append (`'a'`) permite adicionar conteúdo ao final de um arquivo sem sobrescrever o conteúdo existente.
 
-```sql
-SELECT 
-    NULLIF(10, 10) AS resultado1,  -- NULL
-    NULLIF(10, 20) AS resultado2   -- 10
-FROM DUAL;
+**Exemplo:**
+```python
+# Primeiro, criamos um arquivo com conteúdo
+with open('log.txt', 'w') as arquivo:
+    arquivo.write("Início do log: 12:00\n")
+
+# Depois, adicionamos mais conteúdo sem apagar o anterior
+with open('log.txt', 'a') as arquivo:
+    arquivo.write("Nova entrada: 12:30\n")
+    arquivo.write("Nova entrada: 13:15\n")
 ```
 
-#### COALESCE
-Retorna o primeiro valor não NULL da lista.
+## Fechamento de Arquivos / Closing Files
 
-```sql
--- Substitui commission_pct NULL por 0
-SELECT 
-    employee_id, 
-    salary, 
-    COALESCE(commission_pct, 0) AS comissao
-FROM employees;
+É essencial fechar arquivos após o uso para liberar recursos do sistema e garantir que todos os dados sejam gravados.
+
+### close()
+
+O método `close()` fecha o arquivo e libera quaisquer recursos do sistema associados a ele.
+
+**Sintaxe:**
+```python
+file_object.close()
 ```
 
-### Expressões Condicionais - CASE
-
-```sql
-SELECT 
-    employee_id, 
-    salary,
-    CASE 
-        WHEN salary < 5000 THEN 'Baixo'
-        WHEN salary BETWEEN 5000 AND 10000 THEN 'Médio'
-        ELSE 'Alto'
-    END AS nivel_salarial
-FROM employees;
+**Exemplo:**
+```python
+arquivo = open('exemplo.txt', 'r')
+conteudo = arquivo.read()
+arquivo.close()  # Importante fechar o arquivo após o uso
 ```
 
-### Autojunção e Consulta Hierárquica
+### Gerenciador de contexto `with`
 
-Autojunção permite relacionar uma tabela com ela mesma.
+O gerenciador de contexto `with` fecha automaticamente o arquivo quando o bloco de código é concluído, mesmo se ocorrerem exceções.
 
-```sql
--- Encontrar os gerentes dos funcionários
-SELECT 
-    e.employee_id, 
-    e.last_name AS funcionario, 
-    m.last_name AS gerente
-FROM employees e JOIN employees m
-ON e.manager_id = m.employee_id;
+**Sintaxe:**
+```python
+with open(file_name, mode) as file_object:
+    # operações com o arquivo
 ```
 
-## Funções de Grupo
-
-Principais funções:
-
-```sql
--- Média
-SELECT AVG(salary) AS media_salarial FROM employees;
-
--- Contagem
-SELECT COUNT(*) AS total_funcionarios FROM employees;
-
--- Contagem de valores distintos
-SELECT COUNT(DISTINCT department_id) AS total_departamentos FROM employees;
-
--- Valor máximo e mínimo
-SELECT 
-    MAX(salary) AS maior_salario,
-    MIN(salary) AS menor_salario
-FROM employees;
-
--- Soma
-SELECT SUM(salary) AS folha_pagamento FROM employees;
-
--- Variância e desvio padrão
-SELECT 
-    VARIANCE(salary) AS variancia,
-    STDDEV(salary) AS desvio_padrao
-FROM employees;
+**Exemplo:**
+```python
+with open('exemplo.txt', 'r') as arquivo:
+    conteudo = arquivo.read()
+    # O arquivo é fechado automaticamente ao sair do bloco
 ```
 
-### DISTINCT
+## Navegação em Arquivos / File Navigation
 
-- Tem custo computacional alto
-- Deve ser evitado em full table scan em tabelas grandes
+### seek()
 
-```sql
--- Usar DISTINCT para valores únicos
-SELECT DISTINCT department_id FROM employees;
+O método `seek()` permite posicionar o ponteiro de leitura/escrita em uma posição específica do arquivo.
+
+**Sintaxe:**
+```python
+file_object.seek(offset, whence=0)
 ```
 
-### GROUP BY
+**Parâmetros:**
+- `offset`: O número de bytes a serem movidos
+- `whence`: O ponto de referência para o movimento
+  - `0`: Início do arquivo (padrão)
+  - `1`: Posição atual
+  - `2`: Final do arquivo
 
-Agrupa linhas com valores iguais em colunas resumidas.
-
-```sql
--- Contagem de funcionários por departamento
-SELECT 
-    department_id, 
-    COUNT(*) AS total_funcionarios,
-    AVG(salary) AS media_salarial
-FROM employees
-GROUP BY department_id;
+**Exemplo:**
+```python
+with open('exemplo.txt', 'r') as arquivo:
+    # Ler os primeiros 5 bytes
+    inicio = arquivo.read(5)
+    print(f"Primeiros 5 bytes: {inicio}")
+    
+    # Voltar ao início do arquivo
+    arquivo.seek(0)
+    
+    # Ler 10 bytes a partir do início
+    dez_bytes = arquivo.read(10)
+    print(f"Primeiros 10 bytes: {dez_bytes}")
+    
+    # Ir para o byte 15 a partir do início
+    arquivo.seek(15)
+    posicao_atual = arquivo.tell()  # Obtém a posição atual
+    print(f"Posição atual: {posicao_atual}")
+    
+    # Ler o restante do arquivo a partir da posição 15
+    resto = arquivo.read()
+    print(f"Resto do arquivo: {resto}")
 ```
 
-### HAVING
+## Tratamento de Exceções / Exception Handling
 
-Filtra grupos, diferente de WHERE que filtra linhas.
+O tratamento de exceções é crucial ao manipular arquivos para lidar com erros como arquivos inexistentes, problemas de permissão ou disco cheio.
 
-```sql
--- Filtrando departamentos com mais de 5 funcionários
-SELECT 
-    department_id, 
-    COUNT(*) AS total_funcionarios
-FROM employees
-GROUP BY department_id
-HAVING COUNT(*) > 5;
+**Exemplo usando `try-except`:**
+```python
+try:
+    with open('arquivo_inexistente.txt', 'r') as arquivo:
+        conteudo = arquivo.read()
+except FileNotFoundError:
+    print("Arquivo não encontrado.")
+except PermissionError:
+    print("Sem permissão para ler o arquivo.")
+except IOError as e:
+    print(f"Erro de I/O: {e}")
+finally:
+    print("Operação de leitura finalizada.")
 ```
 
-### ROLLUP, CUBE e GROUPING SETS
+## Exemplos Práticos / Practical Examples
 
-Extensões do GROUP BY para análises multidimensionais.
+### Exemplo 1: Contador de palavras em um arquivo de texto
+```python
+def contar_palavras(nome_arquivo):
+    try:
+        with open(nome_arquivo, 'r', encoding='utf-8') as arquivo:
+            conteudo = arquivo.read()
+            palavras = conteudo.split()
+            return len(palavras)
+    except FileNotFoundError:
+        print(f"O arquivo '{nome_arquivo}' não foi encontrado.")
+        return 0
+    except Exception as e:
+        print(f"Ocorreu um erro: {e}")
+        return 0
 
-```sql
--- ROLLUP: totais hierárquicos
-SELECT 
-    department_id, 
-    job_id, 
-    SUM(salary) AS soma_salarios
-FROM employees
-GROUP BY ROLLUP(department_id, job_id);
-
--- CUBE: todas as combinações de agrupamento
-SELECT 
-    department_id, 
-    job_id, 
-    SUM(salary) AS soma_salarios
-FROM employees
-GROUP BY CUBE(department_id, job_id);
+# Uso
+quantidade = contar_palavras('artigo.txt')
+print(f"O arquivo contém {quantidade} palavras.")
 ```
 
-### Operadores de Conjunto
+### Exemplo 2: Criação de um arquivo de log com timestamp
+```python
+import datetime
 
-- **UNION**: Retorna todas as linhas de ambas as tabelas, eliminando duplicatas
-- **UNION ALL**: Retorna todas as linhas sem eliminar duplicatas
-- **INTERSECT**: Retorna linhas comuns a ambas as tabelas
-- **MINUS**: Retorna linhas da primeira tabela que não existem na segunda
+def registrar_log(mensagem):
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    entrada = f"[{timestamp}] {mensagem}\n"
+    
+    try:
+        with open('aplicacao.log', 'a') as arquivo_log:
+            arquivo_log.write(entrada)
+        return True
+    except Exception as e:
+        print(f"Erro ao registrar log: {e}")
+        return False
 
-```sql
--- União de resultados
-SELECT employee_id, last_name FROM employees
-UNION
-SELECT employee_id, last_name FROM former_employees;
-
--- Interseção de resultados
-SELECT department_id FROM employees
-INTERSECT
-SELECT department_id FROM departments;
-
--- Diferença de conjuntos
-SELECT department_id FROM departments
-MINUS
-SELECT department_id FROM employees;
+# Uso
+registrar_log("Aplicação iniciada")
+registrar_log("Usuário 'admin' fez login")
+registrar_log("Processando dados...")
+registrar_log("Operação concluída com sucesso")
 ```
 
-## Subconsultas
+### Exemplo 3: Processamento de arquivo CSV
+```python
+def processar_csv(nome_arquivo):
+    resultados = []
+    
+    try:
+        with open(nome_arquivo, 'r', encoding='utf-8') as arquivo:
+            # Pular cabeçalho
+            cabecalho = arquivo.readline().strip().split(',')
+            
+            # Processar linhas de dados
+            for linha in arquivo:
+                dados = linha.strip().split(',')
+                if len(dados) == len(cabecalho):
+                    # Criar dicionário com os dados da linha
+                    registro = {cabecalho[i]: dados[i] for i in range(len(cabecalho))}
+                    resultados.append(registro)
+        
+        return resultados
+    except Exception as e:
+        print(f"Erro ao processar CSV: {e}")
+        return []
 
-Consultas aninhadas dentro de outras consultas.
-
-```sql
--- Funcionários com salário acima da média
-SELECT employee_id, last_name, salary
-FROM employees
-WHERE salary > (SELECT AVG(salary) FROM employees);
-
--- Subconsulta correlacionada
-SELECT e.employee_id, e.last_name
-FROM employees e
-WHERE e.salary > (
-    SELECT AVG(salary)
-    FROM employees
-    WHERE department_id = e.department_id
-);
+# Uso
+dados_clientes = processar_csv('clientes.csv')
+for cliente in dados_clientes:
+    print(f"Nome: {cliente.get('nome')}, Email: {cliente.get('email')}")
 ```
-
-## Constraints e Views
-
-### Constraints (Restrições)
-
-Regras aplicadas às colunas de uma tabela para garantir a integridade dos dados.
-
-#### Nível da Coluna
-```sql
--- Constraint de nível de coluna
-CREATE TABLE employees (
-    employee_id NUMBER(6) PRIMARY KEY,
-    first_name VARCHAR2(20),
-    last_name VARCHAR2(25) NOT NULL,
-    email VARCHAR2(25) UNIQUE,
-    hire_date DATE DEFAULT SYSDATE,
-    salary NUMBER(8,2) CHECK (salary > 0)
-);
-```
-
-#### Nível da Tabela
-```sql
--- Constraint de nível de tabela
-CREATE TABLE employees (
-    employee_id NUMBER(6),
-    first_name VARCHAR2(20),
-    last_name VARCHAR2(25),
-    email VARCHAR2(25),
-    hire_date DATE,
-    salary NUMBER(8,2),
-    CONSTRAINT pk_emp PRIMARY KEY (employee_id),
-    CONSTRAINT unq_email UNIQUE (email),
-    CONSTRAINT chk_salary CHECK (salary > 0)
-);
-```
-
-#### Principais Tipos de Constraints
-
-- **PRIMARY KEY**: Identifica exclusivamente cada registro
-- **FOREIGN KEY**: Garante a integridade referencial
-- **UNIQUE**: Garante que todos os valores numa coluna sejam diferentes
-- **CHECK**: Garante que valores atendam a uma condição específica
-- **NOT NULL**: Garante que uma coluna não possa ter valores NULL
-
-### Views
-
-Tabelas virtuais baseadas em consultas SQL.
-
-```sql
--- Criação básica de view
-CREATE VIEW emp_dept_view AS
-SELECT e.employee_id, e.last_name, d.department_name
-FROM employees e JOIN departments d
-ON e.department_id = d.department_id;
-
--- View com CHECK OPTION
-CREATE OR REPLACE VIEW high_salary_emp AS
-SELECT employee_id, last_name, salary, department_id
-FROM employees
-WHERE salary > 10000
-WITH CHECK OPTION CONSTRAINT high_sal_chk;
-
--- View somente leitura
-CREATE OR REPLACE VIEW dept_summary AS
-SELECT department_id, COUNT(*) AS emp_count
-FROM employees
-GROUP BY department_id
-WITH READ ONLY;
-```
-
-#### Opções para Views
-
-| **COMANDO** | **COMMAND** | **OPERAÇÃO** | **OPERATION** |
-|-------------|-------------|--------------|---------------|
-| OR REPLACE | OR REPLACE | Recria a view, caso já exista | Recreates the view if it already exists |
-| FORCE | FORCE | Cria a view mesmo que as tabelas básicas não existam | Creates the view even if base tables do not exist |
-| NOFORCE | NOFORCE | Cria a view apenas se a tabela básica existir (padrão) | Creates the view only if the base table exists (default) |
-| WITH CHECK OPTION | WITH CHECK OPTION | Garante que linhas permaneçam acessíveis à view após operações DML | Ensures rows remain visible through the view after INSERT/UPDATE operations |
-| CONSTRAINT * | CONSTRAINT * | Nome atribuído ao constraint CHECK OPTION | Name assigned to the CHECK OPTION constraint |
-| WITH READ ONLY | WITH READ ONLY | Garante que nenhuma operação DML possa ser executada na view | Guarantees no DML operations can be performed on the view |
-
-#### Análise TOP-N
-
-Técnica para recuperar um número específico de registros ordenados.
-
-```sql
--- Top 5 salários mais altos
-SELECT employee_id, last_name, salary
-FROM employees
-ORDER BY salary DESC
-FETCH FIRST 5 ROWS ONLY;
-
--- Alternativa com ROWNUM (Oracle)
-SELECT employee_id, last_name, salary
-FROM (
-    SELECT employee_id, last_name, salary
-    FROM employees
-    ORDER BY salary DESC
-)
-WHERE ROWNUM <= 5;
-```
-
-## Sequences, Índices e Sinônimos
-
-### Sequences
-
-Objetos do banco de dados usados para gerar automaticamente números sequenciais.
-
-```sql
--- Criação de sequence
-CREATE SEQUENCE emp_seq
-  START WITH 1000
-  INCREMENT BY 1
-  NOCACHE
-  NOCYCLE;
-
--- Utilizando sequence
-INSERT INTO employees (employee_id, last_name, email)
-VALUES (emp_seq.NEXTVAL, 'Smith', 'smith@example.com');
-
--- Verificando valor atual
-SELECT emp_seq.CURRVAL FROM DUAL;
-```
-
-### Índices
-
-Objetos que aceleram a recuperação de linhas por meio de ponteiros.
-
-```sql
--- Índice simples
-CREATE INDEX idx_emp_last_name
-ON employees(last_name);
-
--- Índice composto/concatenado
-CREATE INDEX idx_emp_dept_job
-ON employees(department_id, job_id);
-
--- Índice único
-CREATE UNIQUE INDEX idx_emp_email
-ON employees(email);
-```
-
-#### Quando Criar Índices
-
-- Colunas com alta cardinalidade (muitos valores distintos)
-- Colunas frequentemente usadas em cláusulas WHERE ou condições de junção
-- Tabelas grandes onde consultas recuperam menos de 2-4% das linhas
-
-#### Quando Não Criar Índices
-
-- Tabelas pequenas
-- Tabelas frequentemente atualizadas
-- Colunas raramente usadas em condições de consulta
-- Colunas com baixa cardinalidade
-- Colunas referenciadas como parte de expressões
-
-### Sinônimos (Synonyms)
-
-Nomes alternativos para objetos do banco de dados.
-
-```sql
--- Criando sinônimo privado
-CREATE SYNONYM emp FOR employees;
-
--- Criando sinônimo público (requer privilégios)
-CREATE PUBLIC SYNONYM dept FOR hr.departments;
-
--- Utilizando sinônimo
-SELECT * FROM emp WHERE emp_id = 100;
-```
-
-## Privilégios e Expressões Regulares
-
-### Privilégios
-
-Direitos para executar certas instruções SQL, gerenciados pelo DBA.
-
-#### Categorias de Segurança
-
-- **Segurança de Sistema**: Controla acesso ao banco de dados em nível de sistema (criar usuários, alocar espaço, conceder privilégios)
-- **Segurança de Dados**: Relaciona-se aos privilégios sobre objetos específicos do banco de dados
-
-```sql
--- Concedendo privilégios de objeto
-GRANT SELECT, INSERT ON employees TO user1;
-
--- Concedendo privilégios com opção de repasse
-GRANT SELECT ON departments TO user1 WITH GRANT OPTION;
-
--- Revogando privilégios
-REVOKE SELECT ON employees FROM user1;
-```
-
-### Expressões Regulares
-
-Método para descrever padrões simples e complexos para pesquisa e manipulação de strings.
-
-#### Metacaracteres Principais
-
-| **Símbolo** | **Descrição** | **Description** |
-|-------------|---------------|-----------------|
-| `.` | Corresponde a qualquer caractere único, exceto NULL | Matches any single character except NULL |
-| `?` | Corresponde a zero ou uma ocorrência | Matches zero or one occurrence |
-| `*` | Corresponde a zero ou mais ocorrências | Matches zero or more occurrences |
-| `+` | Corresponde a uma ou mais ocorrências | Matches one or more occurrences |
-| `()` | Agrupamento: trata o conteúdo como subexpressão | Grouping: treats content as a subexpression |
-| `\` | Caractere de escape | Escape character |
-| `\|` | Alternância: especifica correspondências alternativas | Alternation: specifies alternative matches |
-| `^` / `$` | Corresponde ao início/fim da linha | Matches start/end of line |
-| `[]` | Conjunto de caracteres: qualquer um dos caracteres listados | Character class: any one of the listed characters |
-
-```sql
--- Encontrando emails com padrão específico
-SELECT first_name, email
-FROM employees
-WHERE REGEXP_LIKE(email, '^[A-Z]{4}_[A-Z]{3}$');
-
--- Substituindo padrões com expressões regulares
-SELECT 
-    REGEXP_REPLACE('abc123def456', '[0-9]+', 'NUM') AS resultado
-FROM DUAL;
--- Resultado: abcNUMdefNUM
-
--- Extraindo substrings que correspondem ao padrão
-SELECT 
-    REGEXP_SUBSTR('Contato: (11) 98765-4321', '[0-9]{2}\) [0-9\-]+') AS telefone
-FROM DUAL;
--- Resultado: 11) 98765-4321
-```
-
-## Glossário
-
-| **Termo** | **Term** | **Definição** | **Definition** |
-|-----------|----------|---------------|---------------|
-| Comandos DML | DML Commands | Linguagem de Manipulação de Dados - comandos usados para manipular dados como SELECT, INSERT, UPDATE e DELETE | Data Manipulation Language - commands used to manipulate data like SELECT, INSERT, UPDATE and DELETE |
-| Função de Linha Única | Single-Row Function | Função que opera em uma linha por vez e retorna um resultado para cada linha | Function that operates on one row at a time and returns one result per row |
-| Função de Grupo | Group Function | Função que opera em conjuntos de linhas para retornar um único resultado por grupo | Function that operates on sets of rows to return one result per group |
-| Junção | Join | Operação que combina linhas de duas ou mais tabelas com base em colunas relacionadas | Operation that combines rows from two or more tables based on related columns |
-| Natural Join | Natural Join | Junção que combina tabelas baseada em colunas com mesmo nome e tipo de dados | Join that combines tables based on columns with the same name and data type |
-| Equijunção | Equijoin | Junção baseada em valores iguais entre colunas relacionadas | Join based on equal values between related columns |
-| Junção Externa | Outer Join | Junção que inclui linhas não correspondentes de uma ou ambas as tabelas | Join that includes non-matching rows from one or both tables |
-| Subconsulta | Subquery | Consulta aninhada dentro de outra consulta SQL | Query nested inside another SQL query |
-| Constraint | Constraint | Regra que limita os valores permitidos em uma tabela | Rule that restricts the values allowed in a table |
-| View | View | Tabela virtual baseada em uma consulta SQL | Virtual table based on a SQL query |
-| Sequence | Sequence | Objeto que gera valores numéricos sequenciais | Object that generates sequential numeric values |
-| Índice | Index | Estrutura para melhorar a velocidade de recuperação de dados | Structure to improve the speed of data retrieval |
-| Sinônimo | Synonym | Nome alternativo para um objeto de banco de dados | Alternative name for a database object |
-| Privilégio | Privilege | Permissão para executar determinadas operações no banco de dados | Permission to perform certain operations in the database |
-| Expressão Regular | Regular Expression | Padrão que descreve um conjunto de strings | Pattern that describes a set of strings |
-| GROUP BY | GROUP BY | Cláusula que agrupa linhas com valores iguais | Clause that groups rows with equal values |
-| HAVING | HAVING | Cláusula que filtra grupos após o agrupamento | Clause that filters groups after grouping |
-| ROLLUP | ROLLUP | Extensão do GROUP BY que produz totais hierárquicos | Extension of GROUP BY that produces hierarchical totals |
-| CUBE | CUBE | Extensão do GROUP BY que produz todas as combinações de agrupamento | Extension of GROUP BY that produces all grouping combinations |
-| DBA | DBA | Administrador de Banco de Dados - profissional responsável pela administração | Database Administrator - professional responsible for database administration |
