@@ -57,14 +57,3 @@ Ao final desta disciplina, os estudantes serão capazes de:
 - Automatizar tarefas de processamento de dados
 - Implementar soluções escaláveis para problemas de engenharia de dados
 
-
-O projeto final consistiu na implementação de um pipeline de dados completo, desde a extração até a visualização, aplicando os conhecimentos adquiridos durante o curso.
-
-## Recursos Adicionais | Additional Resources
-
-- [Documentação oficial do Python](https://docs.python.org/3/)
-- [Documentação do pandas](https://pandas.pydata.org/docs/)
-- [Tutorial de PySpark](https://spark.apache.org/docs/latest/api/python/)
-- [Cursos online recomendados](https://www.datacamp.com/tracks/data-engineer-with-python)
-- [Comunidade Python para Dados - Discord](https://discord.gg/python-data)
-
