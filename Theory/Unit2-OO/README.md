@@ -1,708 +1,466 @@
-# Banco de Dados Relacionais e Linguagem SQL - Parte II | Relational Databases and SQL Language - Part II
+# Documentação Python para Pós-Graduação
+# Python Documentation for Post-Graduation
 
-Este repositório contém o material complementar da disciplina de Bancos de Dados Relacionais e Linguagem SQL (Parte II), integrante do programa de pós-graduação.
+## Sumário / Summary
+- [Introdução / Introduction](#introdução--introduction)
+  - [O que é Python? / What is Python?](#o-que-é-python--what-is-python)
+  - [Por que usar Python? / Why use Python?](#por-que-usar-python--why-use-python)
+- [Variáveis / Variables](#variáveis--variables)
+  - [Variáveis String / String Variables](#variáveis-string--string-variables)
+  - [Variáveis Numéricas / Numeric Variables](#variáveis-numéricas--numeric-variables)
+    - [Inteiros (int) / Integers (int)](#inteiros-int--integers-int)
+    - [Ponto Flutuante (float) / Floating Point (float)](#ponto-flutuante-float--floating-point-float)
+    - [Booleanos (bool) / Booleans (bool)](#booleanos-bool--booleans-bool)
+    - [Números Complexos (complex) / Complex Numbers (complex)](#números-complexos-complex--complex-numbers-complex)
+- [Estruturas de Dados / Data Structures](#estruturas-de-dados--data-structures)
+  - [Dicionários / Dictionaries](#dicionários--dictionaries)
+    - [Método get / get Method](#método-get--get-method)
+    - [Método del / del Method](#método-del--del-method)
+    - [Método clear / clear Method](#método-clear--clear-method)
+    - [Método copy / copy Method](#método-copy--copy-method)
+  - [Tuplas / Tuples](#tuplas--tuples)
+  - [Listas / Lists](#listas--lists)
+- [Operadores / Operators](#operadores--operators)
+  - [Operadores Aritméticos / Arithmetic Operators](#operadores-aritméticos--arithmetic-operators)
+  - [Operadores Lógicos / Logical Operators](#operadores-lógicos--logical-operators)
+- [Estruturas de Controle / Control Structures](#estruturas-de-controle--control-structures)
+  - [Controle de Fluxo if/elif/else / Flow Control if/elif/else](#controle-de-fluxo-ifelifelse--flow-control-ifelifelse)
+  - [Repetição (loop) for / For Loop](#repetição-loop-for--for-loop)
+  - [Repetição (loop) while / While Loop](#repetição-loop-while--while-loop)
+- [Funções / Functions](#funções--functions)
+  - [Função range / range Function](#função-range--range-function)
+  - [Números Aleatórios / Random Numbers](#números-aleatórios--random-numbers)
+- [Manipulação de Arquivos / File Handling](#manipulação-de-arquivos--file-handling)
+- [Conexões com Bancos de Dados e Arquivos / Database and File Connections](#conexões-com-bancos-de-dados-e-arquivos--database-and-file-connections)
+- [Programação Orientada a Objetos / Object-Oriented Programming](#programação-orientada-a-objetos--object-oriented-programming)
+  - [Motivações / Motivations](#motivações--motivations)
+  - [Características / Characteristics](#características--characteristics)
+  - [Conceito de Objetos / Object Concept](#conceito-de-objetos--object-concept)
+  - [Definição / Definition](#definição--definition)
+  - [Pilares da POO / OOP Pillars](#pilares-da-poo--oop-pillars)
+    - [Abstração / Abstraction](#abstração--abstraction)
+    - [Encapsulamento / Encapsulation](#encapsulamento--encapsulation)
+    - [Herança / Inheritance](#herança--inheritance)
+    - [Polimorfismo / Polymorphism](#polimorfismo--polymorphism)
+  - [Classes / Classes](#classes--classes)
+  - [Instâncias / Instances](#instâncias--instances)
+  - [Construtores / Constructors](#construtores--constructors)
+  - [Métodos / Methods](#métodos--methods)
+    - [Parâmetros / Parameters](#parâmetros--parameters)
+    - [Self / Self](#self--self)
+    - [Modificadores de Acesso / Access Modifiers](#modificadores-de-acesso--access-modifiers)
 
-## Sumário | Summary
-- [Ciclo de Vida do Desenvolvimento de Banco de Dados | Database Development Lifecycle](#ciclo-de-vida-do-desenvolvimento-de-banco-de-dados--database-development-lifecycle)
-- [Modelos de Dados, Esquemas e Instâncias | Data Models, Schemas and Instances](#modelos-de-dados-esquemas-e-instâncias--data-models-schemas-and-instances)
-- [Linguagem SQL: DDL, DML, DCL e TCL | SQL Language: DDL, DML, DCL and TCL](#linguagem-sql-ddl-dml-dcl-e-tcl--sql-language-ddl-dml-dcl-and-tcl)
-- [Álgebra e Cálculo Relacional | Relational Algebra and Calculus](#álgebra-e-cálculo-relacional--relational-algebra-and-calculus)
-- [Glossário | Glossary](#glossário--glossary)
+## Introdução / Introduction
 
-## Ciclo de Vida do Desenvolvimento de Banco de Dados | Database Development Lifecycle
+### O que é Python? / What is Python?
 
-O desenvolvimento de banco de dados segue uma abordagem sistemática top-down que transforma requisitos de informações de negócio em um banco de dados operacional. Conhecer cada estágio deste ciclo ajuda a planejar melhor um projeto e a ser mais produtivo na construção dos modelos.
+Python é uma linguagem de programação relativamente simples que foi criada por Guido van Rossum em 1991. É uma linguagem de alto nível, interpretada e conhecida por sua alta produtividade.
 
-### Estratégia e Análise | Strategy and Analysis
-- Estudar e analisar os requisitos de negócio utilizando entrevistas com usuários
-- Identificar os requisitos de dados
-- Prever possíveis necessidades futuras do sistema
-- Criar e revisar os modelos conceituais do sistema
-- Criar a representação gráfica do modelo
+Python foi desenvolvida com foco na legibilidade de código e na produtividade do programador. O nome da linguagem foi inspirado no grupo de comédia britânico Monty Python, refletindo a intenção do criador de fazer uma linguagem divertida de usar.
 
-### Design | Design
-- Transformar o modelo desenvolvido na fase de estratégia e análise
-- Mapear entidades para tabelas, atributos para colunas, relacionamentos para chaves estrangeiras e regras de negócios para restrições
+Características principais do Python:
 
-### Criação | Creation
-- Gravar e executar os comandos para criar as tabelas e os objetos de apoio do banco de dados
-- Preencher as tabelas com dados
-- Desenvolver a documentação do usuário, o texto da ajuda e os manuais de operação
+#### Simples
+- **Elegante**: Requer menos linhas de código comparado a linguagens como Java, C e C++
+- **Sintaxe clara**: Utiliza indentação para definir blocos de código, o que força uma formatação padronizada
+- **Documentação gratuita e de fácil acesso**: Ampla documentação disponível em [python.org](https://docs.python.org/)
 
-### Transição | Transition
-- Conduzir o teste de aceitação do usuário
-- Verificar se o desenvolvimento atende aos requisitos de negócio
-- Operar de forma paralela e converter dados existentes quando necessário
-- Proceder com as correções apontadas
-- Implantar o sistema para usuários
-- Operar o sistema de produção
-- Monitorar o desempenho e refinar a operação do sistema
+#### Alto nível
+- **Abstração elevada**: Oculta complexidades da máquina do programador
+- **Distante do código de máquina**: Não é necessário gerenciar memória manualmente
+- **Próximo à linguagem humana**: A leitura do código se assemelha à linguagem natural
 
-## Modelos de Dados, Esquemas e Instâncias | Data Models, Schemas and Instances
+#### Interpretada
+- **Não precisa ser compilada**: O código é executado linha por linha
+- **Desenvolvimento ágil**: Facilita testes e alterações rápidas
 
-### Revisão de Conceitos Básicos | Basic Concepts Review
-- **Tabela**: estrutura de armazenamento básica
-- **Coluna**: um tipo de dados em uma tabela
-- **Linha**: dado para uma instância de tabela
-- **Campo**: o valor encontrado na intersecção entre uma linha e uma coluna
-- **Chave Primária**: identificador exclusivo de cada linha
-- **Chave Estrangeira**: coluna que se refere a uma coluna de chave primária em outra tabela
+#### Multiplataforma
+- **Executa em diversos sistemas**: Windows, Linux, macOS, entre outros
+- **Portabilidade**: O mesmo código funciona em diferentes plataformas
 
-### Propriedades Fundamentais | Fundamental Properties
-- P1: As entradas nas colunas têm um valor único
-- P2: As entradas nas colunas são do mesmo tipo
-- P3: Cada linha é única
-- P4: A sequência das colunas não é significativa
-- P5: A sequência das linhas não é significativa
-- P6: Cada coluna tem um nome exclusivo
+### Por que usar Python? / Why use Python?
 
-### Schema | Schema
-Quando nosso diagrama entidade-relacionamento é implantado no SGBD (estrutura), ele ainda não possui dados armazenados. Neste momento, ele é apenas o projeto e, portanto, é chamado de esquema de banco de dados, que é modificado com pouca frequência.
+Python se tornou uma das linguagens mais populares do mundo por diversas razões:
 
-**Exemplo de criação de schema:**
-```sql
--- Criando um novo schema
-CREATE SCHEMA vendas;
+1. **Versatilidade**: Pode ser usada para desenvolvimento web, análise de dados, inteligência artificial, automação, desenvolvimento de aplicações desktop e muito mais.
 
--- Definindo o schema como padrão
-SET search_path TO vendas;
+2. **Comunidade ativa**: Possui uma enorme comunidade que contribui com bibliotecas, frameworks e suporte.
 
--- Criando tabela no schema específico
-CREATE TABLE vendas.produtos (
-    produto_id INT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    preco DECIMAL(10,2)
-);
+3. **Riqueza de bibliotecas**: O Python Package Index (PyPI) contém mais de 300.000 pacotes para diversas finalidades.
+
+4. **Produtividade**: A sintaxe simples e legível permite desenvolver soluções rapidamente.
+
+5. **Curva de aprendizado suave**: Ideal para iniciantes, mas também poderosa para profissionais experientes.
+
+6. **Integração**: Facilidade para integrar com outras linguagens e tecnologias.
+
+**Exemplo de código Python simples:**
+```python
+# Este é um exemplo simples de código Python
+print("Olá, mundo!")
+
+# Calculando a soma de dois números
+a = 5
+b = 3
+soma = a + b
+print(f"A soma de {a} e {b} é {soma}")
+
+# Usando uma função
+def saudacao(nome):
+    return f"Olá, {nome}!"
+
+mensagem = saudacao("Estudante")
+print(mensagem)
 ```
 
-### Instância | Instance
-Informações começam a ser inseridas, atualizadas ou apagadas, sendo gerenciadas pelos mecanismos disponíveis no SGBD. A partir deste momento, com o banco de dados implantado, todo este conjunto passa a se chamar instância de banco de dados.
+## Variáveis / Variables
 
-Na prática, quando formos nos conectar a uma instância de banco de dados, teremos que fornecer:
-- Endereço (IP ou nome DNS)
-- Porta de conexão
-- Nome do schema
+Em Python, as variáveis são utilizadas para armazenar dados na memória do computador. Uma das características mais notáveis do Python é que as variáveis são dinamicamente tipadas, o que significa que você não precisa declarar o tipo de uma variável antes de usá-la. O tipo é determinado automaticamente quando você atribui um valor à variável.
 
-**Exemplo de conexão com uma instância:**
-```sql
--- Exemplo de string de conexão em um aplicativo Java
-String url = "jdbc:postgresql://servidor.exemplo.com:5432/banco_dados";
-String usuario = "usuario";
-String senha = "senha";
-Connection conn = DriverManager.getConnection(url, usuario, senha);
+Regras para nomear variáveis em Python:
+- Devem começar com uma letra ou underscore (_)
+- Podem conter letras, números e underscores
+- São case-sensitive (nome ≠ Nome)
+- Não podem usar palavras reservadas como if, for, class, etc.
+
+**Exemplos de declaração de variáveis:**
+```python
+nome = "Maria"           # String
+idade = 25               # Integer
+altura = 1.65            # Float
+is_estudante = True      # Boolean
 ```
 
-### Instância em Nuvem | Cloud Instance
-No contexto da computação em nuvem, quando tivermos que contratar uma instância para nossos BDs, o conceito envolverá também recursos computacionais como:
-- CPU
-- Memória
-- Largura de banda
-- Performance de rede disponível
+### Variáveis String / String Variables
 
-## Linguagem SQL: DDL, DML, DCL e TCL | SQL Language: DDL, DML, DCL and TCL
+Strings são sequências de caracteres e são usadas para representar texto em Python. Podem ser definidas usando aspas simples (`'`) ou duplas (`"`).
 
-### DML (Data Manipulation Language) | Linguagem de Manipulação de Dados
-
-Instruções utilizadas para modificar os dados da tabela por meio da inclusão de novas linhas e alteração ou remoção de linhas existentes:
-- INSERT
-- UPDATE
-- DELETE
-- MERGE
-- SELECT (limitada à consulta)
-
-#### SELECT | Selecionar
-A instrução SELECT acessa os dados no banco de dados. Apesar de não manipular os dados (não faz alterações permanentes), pode operar nos dados acessados retornando valores calculados ou organizados de forma diferente dos originais.
-
-**Exemplo básico:**
-```sql
--- Estrutura básica do SELECT
-SELECT nome_coluna1, nome_coluna2
-FROM nome_tabela
-WHERE condição;
-
--- Exemplo prático
-SELECT primeiro_nome, sobrenome
-FROM clientes
-WHERE cidade = 'São Paulo';
+**Criação de strings:**
+```python
+nome = "João Silva"
+curso = 'Python para Pós-Graduação'
 ```
 
-#### Conceitos Importantes | Important Concepts
-- **Palavra-chave**: comando individual (SELECT, FROM)
-- **Cláusula**: parte da instrução (SELECT last_name)
-- **Instrução**: combinação de duas ou mais cláusulas (SELECT name FROM actor)
+**Operações com strings:**
+```python
+# Concatenação
+primeiro_nome = "João"
+sobrenome = "Silva"
+nome_completo = primeiro_nome + " " + sobrenome  # João Silva
 
-#### Operadores Aritméticos | Arithmetic Operators
-- Ordem MDAS (Multiplicação, Divisão, Adição, Subtração)
-- Se operadores aparecerem juntos, multiplicação e divisão são avaliadas primeiro
-- Se operadores tiverem mesma prioridade, avaliação é feita da esquerda para direita
-- Para melhor organização, use parênteses para indicar prioridades
+# Repetição
+linha = "-" * 20  # --------------------
 
-**Exemplo:**
-```sql
--- Uso de operadores aritméticos
-SELECT 
-    produto_id,
-    nome,
-    preco,
-    quantidade,
-    preco * quantidade AS valor_total,
-    (preco * quantidade) * 0.9 AS valor_com_desconto
-FROM produtos
-WHERE (preco * quantidade) > 1000;
+# Indexação (acesso a caracteres individuais)
+primeira_letra = nome[0]  # J
+
+# Fatiamento (slicing)
+primeiros_caracteres = nome[0:4]  # João
+
+# Comprimento
+tamanho = len(nome)  # 10
+
+# Métodos de string
+maiusculo = nome.upper()  # JOÃO SILVA
+minusculo = nome.lower()  # joão silva
+capitalizado = nome.title()  # João Silva
 ```
 
-#### NULL | Valor Nulo
-- NULL representa valor indisponível, inaplicável, desconhecido ou não atribuído
-- Não é zero, espaço, traço ou qualquer outra representação de ausência de valor
-- Qualquer operação aritmética com NULL resulta em NULL (exceto divisão por 0, que gera erro)
+**Formatação de strings:**
+```python
+# Usando format()
+mensagem1 = "Olá, {}. Bem-vindo ao curso de {}.".format(nome, curso)
 
-**Exemplo:**
-```sql
--- Tratamento de valores NULL
-SELECT 
-    produto_id,
-    nome,
-    preco,
-    COALESCE(desconto, 0) AS desconto,
-    preco * (1 - COALESCE(desconto, 0)) AS preco_final
-FROM produtos;
+# Usando f-strings (Python 3.6+)
+mensagem2 = f"Olá, {nome}. Você tem {idade} anos."
 
--- Verificação de valores NULL
-SELECT *
-FROM funcionarios
-WHERE salario IS NULL;
+# Formatação com especificadores
+preco = 49.99
+mensagem3 = f"O preço do curso é R$ {preco:.2f}"  # R$ 49.99
 ```
 
-#### Aliases | Apelidos
-- Renomeia a coluna de saída para leitura mais amigável
-- Útil para cálculos
-- Deve vir imediatamente após o nome da coluna, usando a palavra AS
+### Variáveis Numéricas / Numeric Variables
 
-**Exemplo:**
-```sql
--- Uso de aliases para colunas
-SELECT 
-    primeiro_nome AS nome,
-    sobrenome AS "Nome de Família",
-    data_nascimento AS nascimento,
-    (salario * 12) AS "Salário Anual"
-FROM funcionarios;
+Python oferece diversos tipos numéricos para diferentes necessidades.
+
+#### Inteiros (int) / Integers (int)
+
+Representam números inteiros sem parte decimal.
+
+```python
+idade = 25
+quantidade = -10
+numero_grande = 1_000_000  # O underscore ajuda na legibilidade
 ```
 
-#### DESCRIBE/DESC | Descrever
-Retorna informações sobre a estrutura da tabela:
-- Nome da tabela
-- Tipos de dados
-- Chaves primárias e estrangeiras
-- Colunas anuláveis
-- Comentários
-
-**Exemplo:**
-```sql
--- No Oracle/MySQL
-DESCRIBE clientes;
--- ou
-DESC clientes;
-
--- No PostgreSQL
-\d clientes;
-
--- No SQL Server
-EXEC sp_columns 'clientes';
+Operações com inteiros:
+```python
+soma = 5 + 3          # 8
+subtracao = 10 - 4    # 6
+multiplicacao = 3 * 4 # 12
+divisao = 10 / 3      # 3.3333333333333335 (retorna float)
+divisao_inteira = 10 // 3  # 3
+resto = 10 % 3        # 1
+potencia = 2 ** 3     # 8
 ```
 
-#### Função de Concatenação | Concatenation Function
-- Vincula colunas a outras
-- Deixa a saída mais amigável
-- Economiza código
+#### Ponto Flutuante (float) / Floating Point (float)
 
-**Exemplo:**
-```sql
--- No PostgreSQL/MySQL
-SELECT 
-    produto_id,
-    CONCAT(nome, ' - ', categoria) AS produto_categoria
-FROM produtos;
+Representam números reais com parte decimal.
 
--- No Oracle
-SELECT 
-    produto_id,
-    nome || ' - ' || categoria AS produto_categoria
-FROM produtos;
-
--- No SQL Server
-SELECT 
-    produto_id,
-    nome + ' - ' + categoria AS produto_categoria
-FROM produtos;
+```python
+altura = 1.75
+pi = 3.14159
+notacao_cientifica = 1.5e3  # 1500.0
 ```
 
-#### DISTINCT | Distinto
-Elimina linhas duplicadas, útil para saber quantas instâncias únicas existem em uma tabela.
+Operações com floats são similares às operações com inteiros, mas sempre resultam em um float quando pelo menos um dos operandos é float.
 
-**Exemplo:**
-```sql
--- Obtendo valores únicos
-SELECT DISTINCT cidade
-FROM clientes
-ORDER BY cidade;
-
--- Combinação de colunas para valores únicos
-SELECT DISTINCT cidade, estado
-FROM clientes
-ORDER BY cidade, estado;
+Cuidados com precisão:
+```python
+# Problemas de precisão são comuns em operações com ponto flutuante
+resultado = 0.1 + 0.2  # 0.30000000000000004
 ```
 
-#### Operadores de Comparação | Comparison Operators
-- = (igual)
-- > (maior que)
-- < (menor que)
-- >= (maior ou igual)
-- <= (menor ou igual)
-- <> ou != (diferente)
+#### Booleanos (bool) / Booleans (bool)
 
-#### BETWEEN AND | Entre
-Seleciona e exibe linhas com base em uma faixa de valores (inclusive).
+Representam valores lógicos: True (verdadeiro) ou False (falso).
 
-**Exemplo:**
-```sql
--- Selecionando registros dentro de uma faixa
-SELECT produto_id, nome, preco
-FROM produtos
-WHERE preco BETWEEN 100 AND 500;
-
--- Equivalente a
-SELECT produto_id, nome, preco
-FROM produtos
-WHERE preco >= 100 AND preco <= 500;
+```python
+is_estudante = True
+esta_aprovado = False
 ```
 
-#### IN | Conjunto
-Testa se um valor está dentro de um conjunto específico de valores.
-
-**Exemplo:**
-```sql
--- Verificando se valor está em um conjunto
-SELECT produto_id, nome, categoria
-FROM produtos
-WHERE categoria IN ('Eletrônicos', 'Informática', 'Acessórios');
-
--- Equivalente a
-SELECT produto_id, nome, categoria
-FROM produtos
-WHERE categoria = 'Eletrônicos' OR categoria = 'Informática' OR categoria = 'Acessórios';
+Os booleanos são frequentemente usados em expressões condicionais:
+```python
+if idade >= 18:
+    pode_dirigir = True
+else:
+    pode_dirigir = False
 ```
 
-#### LIKE | Padrão
-Seleciona linhas correspondentes a caracteres, datas ou padrões de números usando caracteres curinga:
-- % representa qualquer sequência de zero ou mais caracteres
-- _ representa um único caractere
+Valores que são considerados False em contexto booleano:
+- `False`
+- `None`
+- Zero em qualquer tipo numérico: `0`, `0.0`
+- Sequências vazias: `""`, `[]`, `()`
+- Dicionários vazios: `{}`
 
-**Exemplo:**
-```sql
--- Encontrando nomes que começam com "Jo"
-SELECT primeiro_nome, sobrenome
-FROM clientes
-WHERE primeiro_nome LIKE 'Jo%';
+Todos os outros valores são considerados True.
 
--- Encontrando nomes que têm "an" em qualquer posição
-SELECT primeiro_nome, sobrenome
-FROM clientes
-WHERE primeiro_nome LIKE '%an%';
+#### Números Complexos (complex) / Complex Numbers (complex)
 
--- Encontrando nomes com exatamente 4 caracteres
-SELECT primeiro_nome, sobrenome
-FROM clientes
-WHERE primeiro_nome LIKE '____';
+Representam números complexos com parte real e imaginária.
+
+```python
+z = 2 + 3j
 ```
 
-#### IS NULL / IS NOT NULL | É Nulo / Não é Nulo
-Verifica se um valor é NULL ou não.
-
-**Exemplo:**
-```sql
--- Encontrando registros com valores nulos
-SELECT produto_id, nome, descricao
-FROM produtos
-WHERE descricao IS NULL;
-
--- Encontrando registros com valores não nulos
-SELECT funcionario_id, nome, data_demissao
-FROM funcionarios
-WHERE data_demissao IS NOT NULL;
+Propriedades e operações:
+```python
+parte_real = z.real      # 2.0
+parte_imaginaria = z.imag  # 3.0
+conjugado = z.conjugate()  # (2-3j)
 ```
 
-#### INSERT | Inserir
-Insere novos registros em uma tabela.
+## Estruturas de Dados / Data Structures
 
-**Exemplo:**
-```sql
--- Inserção básica com todos os campos
-INSERT INTO clientes (cliente_id, nome, email, telefone)
-VALUES (1, 'João Silva', 'joao@email.com', '(11) 99999-8888');
+### Dicionários / Dictionaries
 
--- Inserção com campos opcionais (NULL)
-INSERT INTO clientes (cliente_id, nome, email)
-VALUES (2, 'Maria Santos', 'maria@email.com');
+Dicionários são estruturas de dados que armazenam pares de chave-valor. São mutáveis e não ordenados (em versões do Python anteriores à 3.7).
 
--- Inserção de múltiplos registros
-INSERT INTO clientes (cliente_id, nome, email)
-VALUES 
-    (3, 'Pedro Oliveira', 'pedro@email.com'),
-    (4, 'Ana Souza', 'ana@email.com');
+**Criação de dicionários:**
+```python
+# Dicionário vazio
+dic_vazio = {}
 
--- Inserção com subconsulta
-INSERT INTO clientes_vip (cliente_id, nome, email)
-SELECT cliente_id, nome, email
-FROM clientes
-WHERE total_compras > 10000;
+# Dicionário com valores iniciais
+aluno = {
+    "nome": "Ana Silva",
+    "idade": 28,
+    "curso": "Python Avançado",
+    "notas": [8.5, 9.0, 7.8]
+}
 ```
 
-#### UPDATE | Atualizar
-Modifica linhas existentes em uma tabela.
+**Acesso a valores:**
+```python
+nome_aluno = aluno["nome"]  # Ana Silva
 
-**Exemplo:**
-```sql
--- Atualização básica
-UPDATE produtos
-SET preco = 199.99
-WHERE produto_id = 10;
-
--- Atualização com múltiplas colunas
-UPDATE funcionarios
-SET salario = salario * 1.1,
-    ultima_atualizacao = CURRENT_DATE
-WHERE departamento_id = 5;
-
--- Atualização com subconsulta
-UPDATE pedidos
-SET status = 'Enviado'
-WHERE cliente_id IN (
-    SELECT cliente_id
-    FROM clientes
-    WHERE tipo = 'Premium'
-);
+# Acesso a chaves inexistentes gera erro KeyError
+# nota_final = aluno["nota_final"]  # KeyError
 ```
 
-> **IMPORTANTE**: Nunca faça UPDATE sem WHERE, pois isso modificará todas as linhas da tabela!
+#### Método get / get Method
 
-#### FOR UPDATE / COMMIT | Para Atualização / Confirmar
-Bloqueia registros para atualização e confirma as alterações.
+O método `get()` é uma forma segura de acessar valores em um dicionário, pois ele retorna None (ou um valor padrão especificado) se a chave não existir, em vez de gerar um erro.
 
-**Exemplo:**
-```sql
--- Bloqueando registros para atualização (transação)
-BEGIN;
-SELECT * FROM contas
-WHERE cliente_id = 1234
-FOR UPDATE;
+```python
+# Sem erro para chaves inexistentes
+nota_final = aluno.get("nota_final")  # Retorna None
 
--- Fazendo alterações
-UPDATE contas
-SET saldo = saldo - 1000
-WHERE cliente_id = 1234;
-
--- Confirmando as alterações
-COMMIT;
+# Com valor padrão
+nota_final = aluno.get("nota_final", 0)  # Retorna 0
 ```
 
-#### DELETE | Excluir
-Remove linhas de uma tabela.
+#### Método del / del Method
 
-**Exemplo:**
-```sql
--- Exclusão básica
-DELETE FROM produtos_obsoletos
-WHERE data_fabricacao < '2020-01-01';
+A instrução `del` permite remover um par chave-valor de um dicionário.
 
--- Exclusão com subconsulta
-DELETE FROM pedidos
-WHERE cliente_id IN (
-    SELECT cliente_id
-    FROM clientes
-    WHERE status = 'Inativo'
-);
+```python
+del aluno["notas"]  # Remove a chave "notas" e seu valor
 ```
 
-> **IMPORTANTE**: Todas as linhas na tabela serão excluídas se você não usar a cláusula WHERE!
+#### Método clear / clear Method
 
-#### MERGE | Mesclar
-Faz inserção e atualização simultaneamente.
+O método `clear()` remove todos os pares chave-valor de um dicionário.
 
-**Exemplo:**
-```sql
--- No Oracle/SQL Server
-MERGE INTO produtos_destino d
-USING produtos_origem o
-ON (d.produto_id = o.produto_id)
-WHEN MATCHED THEN
-    UPDATE SET 
-        d.nome = o.nome,
-        d.preco = o.preco,
-        d.estoque = o.estoque,
-        d.ultima_atualizacao = CURRENT_TIMESTAMP
-WHEN NOT MATCHED THEN
-    INSERT (produto_id, nome, preco, estoque, ultima_atualizacao)
-    VALUES (o.produto_id, o.nome, o.preco, o.estoque, CURRENT_TIMESTAMP);
-
--- No PostgreSQL (alternativa com CTE)
-WITH atualizacoes AS (
-    SELECT o.produto_id, o.nome, o.preco, o.estoque
-    FROM produtos_origem o
-    LEFT JOIN produtos_destino d ON o.produto_id = d.produto_id
-)
-INSERT INTO produtos_destino (produto_id, nome, preco, estoque)
-SELECT produto_id, nome, preco, estoque FROM atualizacoes
-ON CONFLICT (produto_id) DO UPDATE
-SET nome = EXCLUDED.nome,
-    preco = EXCLUDED.preco,
-    estoque = EXCLUDED.estoque,
-    ultima_atualizacao = CURRENT_TIMESTAMP;
+```python
+aluno.clear()  # Dicionário fica vazio: {}
 ```
 
-### Data Warehouse | Armazém de Dados
-Uma coleção de dados feita para auxiliar no processo de tomada de decisão do gerenciamento de negócios. Contém uma grande variedade de dados (pessoais, vendas, clientes, folhas de pagamento, contabilidade) que apresentam uma imagem coerente das condições dos negócios em um ponto único no tempo.
+#### Método copy / copy Method
 
-**Exemplo de carga de dados para DW:**
-```sql
--- Carga incremental para fatos de vendas
-INSERT INTO dw_fatos_vendas (
-    data_id, 
-    produto_id, 
-    cliente_id, 
-    loja_id, 
-    quantidade, 
-    valor_total
-)
-SELECT 
-    d.data_id,
-    p.produto_id,
-    c.cliente_id,
-    l.loja_id,
-    v.quantidade,
-    v.valor_total
-FROM vendas v
-JOIN dim_data d ON v.data_venda = d.data
-JOIN dim_produto p ON v.produto_codigo = p.codigo_origem
-JOIN dim_cliente c ON v.cliente_codigo = c.codigo_origem
-JOIN dim_loja l ON v.loja_codigo = l.codigo_origem
-WHERE v.data_venda > (SELECT MAX(ultima_carga) FROM controle_carga WHERE tabela = 'fatos_vendas');
+O método `copy()` cria uma cópia superficial do dicionário.
 
--- Atualização do controle de carga
-UPDATE controle_carga
-SET ultima_carga = CURRENT_TIMESTAMP
-WHERE tabela = 'fatos_vendas';
+```python
+aluno_copia = aluno.copy()
 ```
 
-## Álgebra e Cálculo Relacional | Relational Algebra and Calculus
+**Outros métodos úteis:**
+```python
+chaves = aluno.keys()       # Retorna um objeto dict_keys com todas as chaves
+valores = aluno.values()    # Retorna um objeto dict_values com todos os valores
+itens = aluno.items()       # Retorna um objeto dict_items com tuplas (chave, valor)
 
-### Terminologia | Terminology
-- **Linha = Tupla | Row = Tuple**
-- **Coluna = Atributo | Column = Attribute**
-- **Tabela = Relação | Table = Relation**
-- **Tipos de Dados = Domínio | Data Types = Domain**
+# Adicionando ou atualizando valores
+aluno["nota_final"] = 8.5
 
-### Operações | Operations
-
-#### Operações Unárias | Unary Operations
-- Seleção (σ)
-- Projeção (π)
-
-#### Operações com Base na Teoria dos Conjuntos | Set Theory Operations
-- União (∪)
-- Interseção (∩)
-- Diferença (-)
-- Produto Cartesiano (×)
-
-#### Operações Binárias | Binary Operations
-- Junção (⋈)
-- Divisão (÷)
-
-#### Seleção (σ) | Selection
-Escolhe um subconjunto de tuplas de uma relação que satisfaça uma condição de seleção. Funciona como um filtro que mantém apenas as tuplas que satisfazem uma condição qualificadora.
-
-**Notação:**
-```
-σ condição (Relação)
+# Atualizando com outro dicionário
+info_adicional = {"matricula": 12345, "turma": "T01"}
+aluno.update(info_adicional)
 ```
 
-**Equivalente SQL:**
-```sql
-SELECT *
-FROM Tabela
-WHERE condição;
+### Tuplas / Tuples
+
+Tuplas são sequências imutáveis e ordenadas. Uma vez criadas, seus elementos não podem ser alterados.
+
+**Criação de tuplas:**
+```python
+# Tupla vazia
+tupla_vazia = ()
+
+# Tupla com um único elemento (observe a vírgula)
+tupla_unica = (1,)
+
+# Tupla com múltiplos elementos
+coordenadas = (10, 20)
+pessoa = ("João", 30, "Engenheiro")
 ```
 
-**Exemplo:**
-```sql
--- Álgebra Relacional: σ idade > 30 (Funcionarios)
--- SQL equivalente:
-SELECT *
-FROM Funcionarios
-WHERE idade > 30;
+**Operações com tuplas:**
+```python
+# Acesso por índice
+nome = pessoa[0]       # João
+idade = pessoa[1]      # 30
+
+# Fatiamento
+primeiros = pessoa[0:2]  # ("João", 30)
+
+# Comprimento
+tamanho = len(pessoa)    # 3
+
+# Concatenação
+tupla1 = (1, 2, 3)
+tupla2 = (4, 5, 6)
+concatenada = tupla1 + tupla2  # (1, 2, 3, 4, 5, 6)
+
+# Repetição
+repetida = tupla1 * 3  # (1, 2, 3, 1, 2, 3, 1, 2, 3)
 ```
 
-#### Projeção (π) | Projection
-Seleciona certos atributos enquanto descarta outros. É uma partição vertical da relação.
+**Desempacotamento de tuplas:**
+```python
+# Atribuição múltipla
+nome, idade, profissao = pessoa
 
-**Notação:**
-```
-π expressões (Relação)
-```
-
-**Equivalente SQL:**
-```sql
-SELECT atributo1, atributo2, ...
-FROM Tabela;
+# Uso com o operador *
+primeiro, *resto = (1, 2, 3, 4, 5)  # primeiro = 1, resto = [2, 3, 4, 5]
 ```
 
-**Exemplo:**
-```sql
--- Álgebra Relacional: π nome, salario (Funcionarios)
--- SQL equivalente:
-SELECT nome, salario
-FROM Funcionarios;
+### Listas / Lists
+
+Listas são sequências mutáveis e ordenadas. Podem conter elementos de tipos diferentes e serem modificadas após a criação.
+
+**Criação de listas:**
+```python
+# Lista vazia
+lista_vazia = []
+
+# Lista com elementos
+numeros = [1, 2, 3, 4, 5]
+nomes = ["Ana", "Bruno", "Carla"]
+mista = [1, "texto", True, [1, 2]]
 ```
 
-#### Operações de Conjunto | Set Operations
+**Operações com listas:**
+```python
+# Acesso por índice
+primeiro = numeros[0]      # 1
+ultimo = numeros[-1]       # 5
 
-##### União (∪) | Union
-Inclui todas as tuplas que estão na relação R ou S ou em ambas, desconsiderando duplicatas.
+# Fatiamento
+primeiros_tres = numeros[0:3]  # [1, 2, 3]
 
-**Notação:**
-```
-Relação₁ ∪ Relação₂
-```
+# Comprimento
+tamanho = len(numeros)     # 5
 
-**Equivalente SQL:**
-```sql
-SELECT *
-FROM Tabela1
-UNION
-SELECT *
-FROM Tabela2;
-```
+# Modificação
+numeros[0] = 10            # [10, 2, 3, 4, 5]
 
-**Exemplo:**
-```sql
--- Álgebra Relacional: Clientes_SP ∪ Clientes_RJ
--- SQL equivalente:
-SELECT *
-FROM Clientes
-WHERE estado = 'SP'
-UNION
-SELECT *
-FROM Clientes
-WHERE estado = 'RJ';
-```
+# Adição de elementos
+numeros.append(6)          # [10, 2, 3, 4, 5, 6]
+numeros.insert(1, 15)      # [10, 15, 2, 3, 4, 5, 6]
+numeros.extend([7, 8, 9])  # [10, 15, 2, 3, 4, 5, 6, 7, 8, 9]
 
-##### Interseção (∩) | Intersection
-Inclui todas as tuplas que estão tanto na relação R quanto em S.
+# Remoção de elementos
+numeros.remove(3)           # Remove o primeiro 3 encontrado
+valor_removido = numeros.pop()  # Remove e retorna o último elemento
+valor_removido = numeros.pop(0) # Remove e retorna o elemento no índice 0
+del numeros[1]              # Remove o elemento no índice 1
 
-**Notação:**
-```
-Relação₁ ∩ Relação₂
+# Ordenação
+numeros.sort()              # Ordena a lista in-place
+numeros.sort(reverse=True)  # Ordena em ordem decrescente
+sorted_list = sorted(numeros)  # Retorna uma nova lista ordenada
+
+# Reversão
+numeros.reverse()           # Inverte a ordem dos elementos
 ```
 
-**Equivalente SQL:**
-```sql
-SELECT *
-FROM Tabela1
-INTERSECT
-SELECT *
-FROM Tabela2;
+**Compreensão de listas:**
+
+Uma forma concisa de criar listas com base em outras sequências.
+
+```python
+# Criando lista de quadrados
+quadrados = [x**2 for x in range(10)]  # [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+
+# Com condicional
+pares = [x for x in range(10) if x % 2 == 0]  # [0, 2, 4, 6, 8]
 ```
 
-**Exemplo:**
-```sql
--- Álgebra Relacional: Produtos_Eletronicos ∩ Produtos_Promocao
--- SQL equivalente:
-SELECT produto_id
-FROM Produtos
-WHERE categoria = 'Eletrônicos'
-INTERSECT
-SELECT produto_id
-FROM Produtos
-WHERE em_promocao = true;
-```
+## Operadores / Operators
 
-##### Diferença (-) | Difference
-Contém as tuplas que estão na relação R, mas não em S.
+### Operadores Aritméticos / Arithmetic Operators
 
-**Notação:**
-```
-Relação₁ - Relação₂
-```
+Os operadores aritméticos são usados para realizar operações matemáticas básicas.
 
-**Equivalente SQL:**
-```sql
-SELECT *
-FROM Tabela1
-EXCEPT (ou MINUS, dependendo do SGBD)
-SELECT *
-FROM Tabela2;
-```
-
-**Exemplo:**
-```sql
--- Álgebra Relacional: Funcionarios - Gerentes
--- SQL equivalente:
-SELECT funcionario_id
-FROM Funcionarios
-EXCEPT
-SELECT funcionario_id
-FROM Funcionarios
-WHERE cargo = 'Gerente';
-```
-
-#### Produto Cartesiano (×) | Cartesian Product
-Combina informações de duas relações quaisquer, resultando em todas as combinações possíveis entre os elementos das relações originais.
-
-**Notação:**
-```
-Relação₁ × Relação₂
-```
-
-**Equivalente SQL:**
-```sql
-SELECT *
-FROM Tabela1
-CROSS JOIN Tabela2;
-```
-
-**Exemplo:**
-```sql
--- Álgebra Relacional: Produtos × Fornecedores
--- SQL equivalente:
-SELECT *
-FROM Produtos
-CROSS JOIN Fornecedores;
-```
-
-## Glossário | Glossary
-
-| Termo | Definição |
-|------|-----------|
-| **Álgebra Relacional** | Coleção de operações formais em relações, que servem como base para linguagens de consulta em bancos de dados relacionais. |
-| **Atributo** | Coluna de uma tabela ou relação que armazena um tipo específico de informação. |
-| **Banco de Dados** | Conjunto centralizado e estruturado de dados armazenados em um sistema de computador. |
-| **Cardinalidade** | Indica a quantidade em que um relacionamento pode ocorrer (um-um, um-muitos, muitos-muitos). |
-| **Chave Estrangeira (FK)** | Coluna que referencia a chave primária de outra tabela. |
-| **Chave Primária (PK)** | Identificador único que garante a individualidade de cada registro. |
-| **DML** | Data Manipulation Language - linguagem utilizada para manipular dados (INSERT, UPDATE, DELETE, SELECT). |
-| **DDL** | Data Definition Language - linguagem utilizada para definir estruturas de dados (CREATE, ALTER, DROP). |
-| **DCL** | Data Control Language - linguagem utilizada para controlar acesso aos dados (GRANT, REVOKE). |
-| **TCL** | Transaction Control Language - linguagem utilizada para controlar transações (COMMIT, ROLLBACK). |
-| **Data Warehouse** | Coleção de dados integrados, orientada por assunto, variável com o tempo e não volátil, que suporta o processo de tomada de decisão. |
-| **Domínio** | Conjunto de valores permitidos para um atributo. |
-| **Esquema** | Descrição da estrutura lógica do banco de dados, incluindo tabelas, colunas e relacionamentos. |
-| **Instância** | Estado atual do banco de dados com todos os dados armazenados em um determinado momento. |
-| **MERGE** | Comando SQL que combina operações de INSERT e UPDATE em uma única instrução. |
-| **NULL** | Valor especial que representa dados ausentes, desconhecidos ou não aplicáveis. |
-| **Produto Cartesiano** | Operação que combina cada linha de uma tabela com todas as linhas de outra tabela. |
-| **Projeção** | Operação da álgebra relacional que seleciona atributos específicos de uma relação. |
-| **Relação** | Tabela em um banco de dados relacional formada por linhas e colunas. |
-| **Seleção** | Operação da álgebra relacional que filtra tuplas de acordo com uma condição. |
-| **SGBD** | Sistema Gerenciador de Banco de Dados - software que gerencia o armazenamento, manipulação e recuperação de dados. |
-| **SQL** | Structured Query Language - linguagem padrão para trabalhar com bancos de dados relacionais. |
-| **Tupla** | Linha de uma tabela ou relação que representa uma entidade específica. |
+| Operador | Descrição | Exemplo |
+|----------|-----------|---------|
+| `+` | Adição | `5 + 3` → `8` |
+| `-` | Subtração | `5 - 3` → `2` |
+| `*` | Multiplicação | `5 * 3` → `15` |
+| `/` | Divisão | `5 / 3` → `1.6666...` |
+| `//` | Divisão inteira | `5 // 3` → `1` |
+| `
